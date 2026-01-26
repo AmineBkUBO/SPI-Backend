@@ -142,8 +142,8 @@ public class Etudiant {
     @Column(name = "UBO_EMAIL")
     private String uboEmail;
 
-    @Column(name = "GRPE_ANGLAIS")
-    private Boolean grpeAnglais;
+    @Column(name = "GRPE_ANGLAIS", length = 1)
+    private String grpeAnglais;
 
     @Size(max = 255)
     @Column(name = "ABANDON_MOTIF")
@@ -153,8 +153,8 @@ public class Etudiant {
     private LocalDate abandonDate;
 
     @ColumnDefault("'N'")
-    @Column(name = "EST_DIPLOME")
-    private Boolean estDiplome;
+    @Column(name = "EST_DIPLOME", length = 1)
+    private String estDiplome;
 
 
 }
