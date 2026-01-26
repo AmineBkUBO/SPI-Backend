@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import spi.Entity.Etudiant;
+import spi.Exception.EtudiantNotFoundException;
 import spi.Repository.EtudiantRepository;
 import spi.Service.Interface.EtudiantService;
 import org.springframework.data.domain.Page;
@@ -44,7 +45,7 @@ public class EtudiantSerivceImpl implements EtudiantService {
 
         Etudiant existing = etudiantRepository.findById(id)
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Etudiant not found with id: " + id)
+                        new EtudiantNotFoundException(id)
                 );
 
         // 🔹 Relations
