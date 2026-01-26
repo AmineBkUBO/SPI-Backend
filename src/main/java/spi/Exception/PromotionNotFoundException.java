@@ -1,7 +1,7 @@
 package spi.Exception;
 
 public class PromotionNotFoundException extends RuntimeException {
-    public PromotionNotFoundException(Integer id) {
+    public PromotionNotFoundException(String id) {
         super("Promotion with Id : " + id + " Does Not exist !");
     }
 }
