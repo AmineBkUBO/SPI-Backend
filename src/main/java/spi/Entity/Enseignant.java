@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "ENSEIGNANT")
+@Table(name = "ENSEIGNANT", schema = "DOSI")
 public class Enseignant {
     @Id
     @Column(name = "NO_ENSEIGNANT", nullable = false)
@@ -20,7 +20,7 @@ public class Enseignant {
 
     @Size(max = 10)
     @NotNull
-    @Column(name = "\"TYPE\"", nullable = false, length = 10)
+    @Column(name = "TYPE", nullable = false, length = 10)
     private String type;
 
     @Size(max = 1)

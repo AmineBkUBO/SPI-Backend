@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "PROMOTION")
+@Table(name = "PROMOTION", schema = "DOSI")
 public class Promotion {
     @Id
     @Size(max = 10)

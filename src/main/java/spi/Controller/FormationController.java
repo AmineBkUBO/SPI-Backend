@@ -22,7 +22,7 @@ public class FormationController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Formation>> getAll(@RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<Page<Formation>> getAll(@RequestParam(defaultValue = "1") int page) {
         return ResponseEntity.ok(formationService.getAllFormations(page));
     }
 

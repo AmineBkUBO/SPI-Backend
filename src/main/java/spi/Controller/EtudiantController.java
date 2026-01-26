@@ -22,7 +22,7 @@ public class EtudiantController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Etudiant>> getAll(@RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<Page<Etudiant>> getAll(@RequestParam(defaultValue = "1") int page) {
         return ResponseEntity.ok(etudiantService.getEtudiants(page));
     }
 

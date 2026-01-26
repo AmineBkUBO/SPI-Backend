@@ -22,7 +22,7 @@ public class PromotionController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Promotion>> getAll(@RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<Page<Promotion>> getAll(@RequestParam(defaultValue = "1") int page) {
         return ResponseEntity.ok(promotionService.getAllPromotions(page));
     }
 
