@@ -11,6 +11,7 @@ import spi.Exception.EnseignantNotFoundException;
 import spi.Repository.EnseignantRepository;
 import spi.Service.Interface.EnseignantService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -28,7 +29,7 @@ public class EnseignantSerivceImpl implements EnseignantService {
     }
 
     @Override
-    public Page<Enseignant> getAllEnseignants() {
+    public List<Enseignant> getAllEnseignants() {
         log.info("Fetching page of Enseignants");
         return enseignantRepository.findAll();
     }

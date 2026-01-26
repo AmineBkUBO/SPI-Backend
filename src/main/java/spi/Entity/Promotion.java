@@ -1,5 +1,6 @@
 package spi.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,7 +16,9 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "PROMOTION", schema = "DOSI")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Promotion {
+
     @Id
     @Size(max = 10)
     @Column(name = "ANNEE_PRO", nullable = false, length = 10)
@@ -24,11 +27,13 @@ public class Promotion {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "CODE_FORMATION")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Formation codeFormation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "NO_ENSEIGNANT")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Enseignant noEnseignant;
 
     @Size(max = 5)
@@ -72,6 +77,4 @@ public class Promotion {
 
     @Column(name = "NO_BAREME")
     private Long noBareme;
-
-
 }

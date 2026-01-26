@@ -1,9 +1,7 @@
 package spi.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -13,7 +11,9 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "ENSEIGNANT", schema = "DOSI")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Enseignant {
+
     @Id
     @Column(name = "NO_ENSEIGNANT", nullable = false)
     private Integer id;
@@ -113,6 +113,4 @@ public class Enseignant {
     @Size(max = 20)
     @Column(name = "INT_PROF_TEL", length = 20)
     private String intProfTel;
-
-
 }
