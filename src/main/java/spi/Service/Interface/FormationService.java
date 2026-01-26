@@ -1,5 +1,6 @@
 package spi.Service.Interface;
 
+import org.springframework.data.domain.Page;
 import spi.Entity.Formation;
 
 import java.util.List;
@@ -9,8 +10,8 @@ public interface FormationService {
 
     Formation createFormation(Formation formation);
 
-    List<Formation> getAllFormations();
-    Optional<Formation> getFormationById(Integer id);
+    Page<Formation> getAllFormations(int page);
+    Optional<Formation> getFormationById(String id);
 
     Formation updateFormation(Formation formation);
 }
