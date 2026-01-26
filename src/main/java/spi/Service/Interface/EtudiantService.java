@@ -1,5 +1,6 @@
 package spi.Service.Interface;
 
+import org.springframework.data.domain.Page;
 import spi.Entity.Etudiant;
 
 import java.util.List;
@@ -9,8 +10,8 @@ public interface EtudiantService {
 
     Etudiant createEtudiant(Etudiant etudiant);
 
-    List<Etudiant> getAllEtudiants();
-    Optional<Etudiant> getEtudiantById(Integer id);
+    Page<Etudiant> getEtudiants(int page);
+    Optional<Etudiant> getEtudiantById(String id);
 
     Etudiant updateEtudiant(Etudiant etudiant);
 }
