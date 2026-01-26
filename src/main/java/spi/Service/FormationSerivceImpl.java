@@ -11,6 +11,7 @@ import spi.Exception.FormationNotFoundException;
 import spi.Repository.FormationRepository;
 import spi.Service.Interface.FormationService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -27,11 +28,15 @@ public class FormationSerivceImpl implements FormationService {
         return formationRepository.save(formation);
     }
 
+
+
     @Override
-    public Page<Formation> getAllFormations(int page) {
-        log.info("Fetching page {} of Formations", page);
-        return formationRepository.findAll(PageRequest.of(page, 20));
+    public List<Formation> getAllFormations(){
+        log.info("Fetching ALL FORMATIONS ....");
+        return formationRepository.findAll();
     }
+
+
 
     @Override
     public Optional<Formation> getFormationById(String id) {

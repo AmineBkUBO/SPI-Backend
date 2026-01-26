@@ -7,6 +7,7 @@ import spi.Entity.Enseignant;
 import spi.Service.Interface.EnseignantService;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,8 +23,8 @@ public class EnseignantController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Enseignant>> getAll(@RequestParam(defaultValue = "1") int page) {
-        return ResponseEntity.ok(enseignantService.getAllEnseignants(page));
+    public ResponseEntity<List<Enseignant>> getAll() {
+        return ResponseEntity.ok(enseignantService.getAllEnseignants());
     }
 
     @GetMapping("/{id}")

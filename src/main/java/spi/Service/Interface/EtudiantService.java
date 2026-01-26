@@ -10,7 +10,7 @@ public interface EtudiantService {
 
     Etudiant createEtudiant(Etudiant etudiant);
 
-    Page<Etudiant> getEtudiants(int page);
+    List<Etudiant> getEtudiants();
     Optional<Etudiant> getEtudiantById(String id);
 
     Etudiant updateEtudiant(Etudiant etudiant);

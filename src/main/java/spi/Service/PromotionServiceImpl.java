@@ -3,14 +3,13 @@ package spi.Service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import spi.Entity.Promotion;
 import spi.Exception.PromotionNotFoundException;
 import spi.Repository.PromotionRepository;
 import spi.Service.Interface.PromotionService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -28,10 +27,11 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public Page<Promotion> getAllPromotions(int page) {
-        log.info("Fetching page {} of Promotions", page);
-        return promotionRepository.findAll(PageRequest.of(page, 20));
+    public List<Promotion> getAllPromotions() {
+        log.info("Fetching page of Promotions");
+        return promotionRepository.findAll();
     }
+
 
     @Override
     public Optional<Promotion> getPromotionById(String id) {

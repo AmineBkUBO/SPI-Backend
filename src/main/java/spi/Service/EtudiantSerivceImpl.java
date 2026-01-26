@@ -11,6 +11,7 @@ import spi.Exception.EtudiantNotFoundException;
 import spi.Repository.EtudiantRepository;
 import spi.Service.Interface.EtudiantService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -28,9 +29,9 @@ public class EtudiantSerivceImpl implements EtudiantService {
     }
 
     @Override
-    public Page<Etudiant> getEtudiants(int page) {
-        log.info("Fetching page {} of Etudiants", page);
-        return etudiantRepository.findAll(PageRequest.of(page, 20));
+    public List<Etudiant> getEtudiants() {
+        log.info("Fetching page of Etudiants");
+        return etudiantRepository.findAll();
     }
 
     @Override

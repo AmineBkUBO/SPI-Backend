@@ -7,6 +7,7 @@ import spi.Entity.Promotion;
 import spi.Service.Interface.PromotionService;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,8 +23,8 @@ public class PromotionController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Promotion>> getAll(@RequestParam(defaultValue = "1") int page) {
-        return ResponseEntity.ok(promotionService.getAllPromotions(page));
+    public ResponseEntity<List<Promotion>> getAll() {
+        return ResponseEntity.ok(promotionService.getAllPromotions());
     }
 
     @GetMapping("/{anneePro}")

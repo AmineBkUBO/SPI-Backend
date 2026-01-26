@@ -7,6 +7,7 @@ import spi.Entity.Formation;
 import spi.Service.Interface.FormationService;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,9 +23,11 @@ public class FormationController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Formation>> getAll(@RequestParam(defaultValue = "1") int page) {
-        return ResponseEntity.ok(formationService.getAllFormations(page));
+    public ResponseEntity<List<Formation>> getAll() {
+        return ResponseEntity.ok(formationService.getAllFormations());
     }
+
+
 
     @GetMapping("/{code}")
     public ResponseEntity<Formation> getById(@PathVariable String code) {

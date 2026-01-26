@@ -7,6 +7,7 @@ import spi.Entity.Etudiant;
 import spi.Service.Interface.EtudiantService;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,8 +23,8 @@ public class EtudiantController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Etudiant>> getAll(@RequestParam(defaultValue = "1") int page) {
-        return ResponseEntity.ok(etudiantService.getEtudiants(page));
+    public ResponseEntity<List<Etudiant>> getAll() {
+        return ResponseEntity.ok(etudiantService.getEtudiants());
     }
 
     @GetMapping("/{noEtudNat}")

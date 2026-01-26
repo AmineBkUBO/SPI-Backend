@@ -10,7 +10,7 @@ public interface FormationService {
 
     Formation createFormation(Formation formation);
 
-    Page<Formation> getAllFormations(int page);
+    List<Formation> getAllFormations();
     Optional<Formation> getFormationById(String id);
 
     Formation updateFormation(Formation formation);

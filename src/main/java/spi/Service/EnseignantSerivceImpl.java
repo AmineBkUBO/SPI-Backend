@@ -28,9 +28,9 @@ public class EnseignantSerivceImpl implements EnseignantService {
     }
 
     @Override
-    public Page<Enseignant> getAllEnseignants(int page) {
-        log.info("Fetching page {} of Enseignants", page);
-        return enseignantRepository.findAll(PageRequest.of(page, 20));
+    public Page<Enseignant> getAllEnseignants() {
+        log.info("Fetching page of Enseignants");
+        return enseignantRepository.findAll();
     }
 
     @Override

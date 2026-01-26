@@ -10,7 +10,7 @@ public interface PromotionService {
 
     Promotion createPromotion(Promotion promotion);
 
-    Page<Promotion> getAllPromotions(int page);
+    List<Promotion> getAllPromotions();
     Optional<Promotion> getPromotionById(String id);
 
     Promotion updatePromotion(Promotion promotion);
