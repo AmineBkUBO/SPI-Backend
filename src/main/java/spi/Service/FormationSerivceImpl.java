@@ -2,6 +2,7 @@ package spi.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -10,10 +11,9 @@ import spi.Exception.FormationNotFoundException;
 import spi.Repository.FormationRepository;
 import spi.Service.Interface.FormationService;
 
-import java.util.List;
 import java.util.Optional;
 
-
+@Slf4j
 @Transactional
 @Service
 @RequiredArgsConstructor
@@ -23,29 +23,37 @@ public class FormationSerivceImpl implements FormationService {
 
     @Override
     public Formation createFormation(Formation formation) {
+        log.info("Creating Formation: {}", formation.getNomFormation());
         return formationRepository.save(formation);
     }
 
     @Override
     public Page<Formation> getAllFormations(int page) {
+        log.info("Fetching page {} of Formations", page);
         return formationRepository.findAll(PageRequest.of(page, 20));
     }
 
     @Override
     public Optional<Formation> getFormationById(String id) {
-
-        return formationRepository.findById(id);
+        log.info("Fetching Formation by id: {}", id);
+        Optional<Formation> formation = formationRepository.findById(id);
+        if (formation.isEmpty()) {
+            log.warn("Formation with id {} not found", id);
+        }
+        return formation;
     }
 
     @Override
     public Formation updateFormation(Formation formation) {
         String code = formation.getCodeFormation();
+        log.info("Updating Formation with code {}", code);
 
-        // 1️⃣ Find existing formation or throw exception
         Formation existing = formationRepository.findById(code)
-                .orElseThrow(() -> new FormationNotFoundException(code));
+                .orElseThrow(() -> {
+                    log.error("Formation with code {} not found", code);
+                    return new FormationNotFoundException(code);
+                });
 
-        // 2️⃣ Update only non-null fields (PATCH semantics)
         if (formation.getDiplome() != null) existing.setDiplome(formation.getDiplome());
         if (formation.getN0Annee() != null) existing.setN0Annee(formation.getN0Annee());
         if (formation.getNomFormation() != null) existing.setNomFormation(formation.getNomFormation());
@@ -53,8 +61,8 @@ public class FormationSerivceImpl implements FormationService {
         if (formation.getDebutHabilitation() != null) existing.setDebutHabilitation(formation.getDebutHabilitation());
         if (formation.getFinHabilitation() != null) existing.setFinHabilitation(formation.getFinHabilitation());
 
-        // 3️⃣ Save and return the updated entity
-        return formationRepository.save(existing);
+        Formation updated = formationRepository.save(existing);
+        log.info("Updated Formation with code {}", code);
+        return updated;
     }
-
 }

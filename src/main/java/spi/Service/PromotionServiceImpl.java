@@ -2,6 +2,7 @@ package spi.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -10,10 +11,9 @@ import spi.Exception.PromotionNotFoundException;
 import spi.Repository.PromotionRepository;
 import spi.Service.Interface.PromotionService;
 
-import java.util.List;
 import java.util.Optional;
 
-
+@Slf4j
 @Transactional
 @Service
 @RequiredArgsConstructor
@@ -23,31 +23,37 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public Promotion createPromotion(Promotion promotion) {
-
+        log.info("Creating Promotion: {}", promotion.getSiglePro());
         return promotionRepository.save(promotion);
     }
 
     @Override
     public Page<Promotion> getAllPromotions(int page) {
-
+        log.info("Fetching page {} of Promotions", page);
         return promotionRepository.findAll(PageRequest.of(page, 20));
     }
 
     @Override
     public Optional<Promotion> getPromotionById(String id) {
-
-        return promotionRepository.findById(id);
+        log.info("Fetching Promotion by id: {}", id);
+        Optional<Promotion> promotion = promotionRepository.findById(id);
+        if (promotion.isEmpty()) {
+            log.warn("Promotion with id {} not found", id);
+        }
+        return promotion;
     }
 
     @Override
     public Promotion updatePromotion(Promotion promotion) {
         String anneePro = promotion.getAnneePro();
+        log.info("Updating Promotion with anneePro {}", anneePro);
 
-        // 1️⃣ Find existing promotion or throw exception
         Promotion existing = promotionRepository.findById(anneePro)
-                .orElseThrow(() -> new PromotionNotFoundException(anneePro));
+                .orElseThrow(() -> {
+                    log.error("Promotion with anneePro {} not found", anneePro);
+                    return new PromotionNotFoundException(anneePro);
+                });
 
-        // 2️⃣ Update only non-null fields (PATCH semantics)
         if (promotion.getCodeFormation() != null) existing.setCodeFormation(promotion.getCodeFormation());
         if (promotion.getNoEnseignant() != null) existing.setNoEnseignant(promotion.getNoEnseignant());
         if (promotion.getSiglePro() != null) existing.setSiglePro(promotion.getSiglePro());
@@ -62,8 +68,8 @@ public class PromotionServiceImpl implements PromotionService {
         if (promotion.getNoEvaluation() != null) existing.setNoEvaluation(promotion.getNoEvaluation());
         if (promotion.getNoBareme() != null) existing.setNoBareme(promotion.getNoBareme());
 
-        // 3️⃣ Save and return the updated entity
-        return promotionRepository.save(existing);
+        Promotion updated = promotionRepository.save(existing);
+        log.info("Updated Promotion with anneePro {}", anneePro);
+        return updated;
     }
-
 }

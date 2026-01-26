@@ -2,19 +2,18 @@ package spi.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import spi.Entity.Enseignant;
-import spi.Entity.Etudiant;
 import spi.Exception.EnseignantNotFoundException;
-import spi.Exception.EtudiantNotFoundException;
 import spi.Repository.EnseignantRepository;
 import spi.Service.Interface.EnseignantService;
 
-import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Transactional
 @Service
 @RequiredArgsConstructor
@@ -24,46 +23,51 @@ public class EnseignantSerivceImpl implements EnseignantService {
 
     @Override
     public Enseignant createEnseignant(Enseignant enseignant) {
+        log.info("Creating new Enseignant: {}", enseignant.getNom());
         return enseignantRepository.save(enseignant);
     }
 
     @Override
     public Page<Enseignant> getAllEnseignants(int page) {
+        log.info("Fetching page {} of Enseignants", page);
         return enseignantRepository.findAll(PageRequest.of(page, 20));
     }
 
     @Override
     public Optional<Enseignant> getEnseignantById(Integer id) {
-        return enseignantRepository.findById(id);
+        log.info("Fetching Enseignant by id: {}", id);
+        Optional<Enseignant> enseignant = enseignantRepository.findById(id);
+        if (enseignant.isEmpty()) {
+            log.warn("Enseignant with id {} not found", id);
+        }
+        return enseignant;
     }
 
     @Override
     public Enseignant updateEnseignant(Enseignant enseignant) {
         Integer id = enseignant.getId();
+        log.info("Updating Enseignant with id {}", id);
 
         Enseignant existing = enseignantRepository.findById(id)
-                .orElseThrow(() -> new EnseignantNotFoundException(id));
+                .orElseThrow(() -> {
+                    log.error("Enseignant with id {} not found", id);
+                    return new EnseignantNotFoundException(id);
+                });
 
-        // 🔹 Basic info
+        // PATCH-like update: only non-null fields
         if (enseignant.getType() != null) existing.setType(enseignant.getType());
         if (enseignant.getSexe() != null) existing.setSexe(enseignant.getSexe());
         if (enseignant.getNom() != null) existing.setNom(enseignant.getNom());
         if (enseignant.getPrenom() != null) existing.setPrenom(enseignant.getPrenom());
-
-        // 🔹 Address info
         if (enseignant.getAdresse() != null) existing.setAdresse(enseignant.getAdresse());
         if (enseignant.getCp() != null) existing.setCp(enseignant.getCp());
         if (enseignant.getVille() != null) existing.setVille(enseignant.getVille());
         if (enseignant.getPays() != null) existing.setPays(enseignant.getPays());
-
-        // 🔹 Contact info
         if (enseignant.getTelPort() != null) existing.setTelPort(enseignant.getTelPort());
         if (enseignant.getEncPersoTel() != null) existing.setEncPersoTel(enseignant.getEncPersoTel());
         if (enseignant.getEncUboTel() != null) existing.setEncUboTel(enseignant.getEncUboTel());
         if (enseignant.getEncPersoEmail() != null) existing.setEncPersoEmail(enseignant.getEncPersoEmail());
         if (enseignant.getEncUboEmail() != null) existing.setEncUboEmail(enseignant.getEncUboEmail());
-
-        // 🔹 Internal company info
         if (enseignant.getIntNoInsee() != null) existing.setIntNoInsee(enseignant.getIntNoInsee());
         if (enseignant.getIntSocNom() != null) existing.setIntSocNom(enseignant.getIntSocNom());
         if (enseignant.getIntSocAdresse() != null) existing.setIntSocAdresse(enseignant.getIntSocAdresse());
@@ -74,8 +78,8 @@ public class EnseignantSerivceImpl implements EnseignantService {
         if (enseignant.getIntProfEmail() != null) existing.setIntProfEmail(enseignant.getIntProfEmail());
         if (enseignant.getIntProfTel() != null) existing.setIntProfTel(enseignant.getIntProfTel());
 
-        // 🔹 Save and return updated entity
-        return enseignantRepository.save(existing);
+        Enseignant updated = enseignantRepository.save(existing);
+        log.info("Updated Enseignant with id {}", id);
+        return updated;
     }
-
 }
