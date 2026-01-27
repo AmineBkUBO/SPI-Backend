@@ -48,4 +48,16 @@ public class Formation {
     private LocalDate finHabilitation;
 
 
+    @Override
+    public String toString() {
+        return "Formation{" +
+                "codeFormation='" + codeFormation + '\'' +
+                ", diplome='" + diplome + '\'' +
+                ", n0Annee=" + n0Annee +
+                ", nomFormation='" + nomFormation + '\'' +
+                ", doubleDiplome=" + doubleDiplome +
+                ", debutHabilitation=" + debutHabilitation +
+                ", finHabilitation=" + finHabilitation +
+                '}';
+    }
 }

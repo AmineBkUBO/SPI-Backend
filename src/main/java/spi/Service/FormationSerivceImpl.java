@@ -24,7 +24,7 @@ public class FormationSerivceImpl implements FormationService {
 
     @Override
     public Formation createFormation(Formation formation) {
-        log.info("Creating Formation: {}", formation.getNomFormation());
+        log.info("Creating Formation: {}", formation );
         return formationRepository.save(formation);
     }
 
